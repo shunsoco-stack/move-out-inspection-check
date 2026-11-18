@@ -1,6 +1,6 @@
 import { AppLink, useStore } from "./store";
 import { PhotoGallery } from "./photo-gallery";
-import { calculateEstimate, money, photoPages } from "@/lib/estimate";
+import { calculateEstimate, formatRatio, money, photoPages } from "@/lib/estimate";
 import { estimateCsv, estimateFilename } from "@/lib/csv";
 import { download } from "@/lib/backup";
 import { tenancyMonths, tenureLabel } from "@/lib/dates";
@@ -177,12 +177,15 @@ export function EstimateView({ inspection }: { inspection: Inspection }) {
               <tbody>
                 {estimate.lines.map((line, index) => (
                   <tr key={index}>
-                    <td>{line.label}</td>
+                    <td>
+                      {line.label}
+                      {line.ratioBasis && <small className="ratio-basis">{line.ratioBasis}</small>}
+                    </td>
                     <td>
                       {money(line.price)} × {line.quantity}
                       {line.unit}
                     </td>
-                    <td>{(line.ratio * 100).toFixed(4)}%</td>
+                    <td>{formatRatio(line.ratio)}</td>
                     <td>{money(line.tenant)}</td>
                     <td>{money(line.landlord)}</td>
                     <td>{line.pending ? money(line.pending) : "—"}</td>
@@ -211,6 +214,9 @@ export function EstimateView({ inspection }: { inspection: Inspection }) {
               </tfoot>
             </table>
           </div>
+          <p className="document-note">
+            割合の表示は小数1桁までに丸めています。金額は丸める前の割合で計算するため、表示が0%でも残存1円の負担が生じる場合があります。
+          </p>
           <p className="document-note">
             工事費（単価×数量）の1円未満を切り捨て、借主負担も1円未満切り捨て。差額を貸主負担とします。消費税は負担者別の小計に対して計算します。
           </p>

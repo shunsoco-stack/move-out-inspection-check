@@ -1,4 +1,4 @@
-import { calculateEstimate } from "./estimate.ts";
+import { calculateEstimate, formatRatio } from "./estimate.ts";
 import { japanDate } from "./dates.ts";
 import type { Inspection } from "./types.ts";
 
@@ -26,7 +26,7 @@ export function estimateCsv(inspection: Inspection): string {
       line.price,
       line.quantity,
       line.unit,
-      `${(line.ratio * 100).toFixed(4)}%`,
+      formatRatio(line.ratio),
       line.tenant,
       line.landlord,
       line.pending,

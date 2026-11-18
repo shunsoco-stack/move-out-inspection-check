@@ -1,5 +1,5 @@
 import { tenantRatio } from "./burden.ts";
-import { tenancyMonths } from "./dates.ts";
+import { tenancyMonths, tenureLabel } from "./dates.ts";
 import type { Inspection } from "./types.ts";
 
 export type EstimateLine = {
@@ -8,6 +8,7 @@ export type EstimateLine = {
   quantity: number;
   unit: string;
   ratio: number;
+  ratioBasis?: string;
   cost: number;
   tenant: number;
   landlord: number;
@@ -30,6 +31,14 @@ export function calculateEstimate(inspection: Inspection) {
           quantity: item.quantity,
           unit: item.unit,
           ratio,
+          ratioBasis:
+            item.burden === "借主" &&
+            item.ratio === null &&
+            item.depreciates &&
+            months > 0 &&
+            cost > 1
+              ? `耐用年数6年・経過${tenureLabel(months)}（入居期間）`
+              : undefined,
           cost,
           tenant,
           landlord: pending ? 0 : cost - tenant,
@@ -77,4 +86,28 @@ export function photoPages<T>(photos: T[]): T[][] {
 
 export function money(value: number): string {
   return `${value.toLocaleString("ja-JP")}円`;
+}
+
+export function formatRatio(ratio: number): string {
+  return `${Number((ratio * 100).toFixed(1))}%`;
+}
+
+export function burdenSummary(estimate: ReturnType<typeof calculateEstimate>) {
+  return [
+    {
+      label: "貸主負担",
+      amount: estimate.landlordSubtotal,
+      count: estimate.lines.filter((line) => line.landlord > 0).length,
+    },
+    {
+      label: "借主負担",
+      amount: estimate.tenantSubtotal,
+      count: estimate.lines.filter((line) => line.tenant > 0).length,
+    },
+    {
+      label: "保留",
+      amount: estimate.pending,
+      count: estimate.lines.filter((line) => line.pending > 0).length,
+    },
+  ];
 }

@@ -4,7 +4,7 @@ import { InspectionForm } from "./inspection-form";
 import { Icon } from "./icons";
 import { progress } from "@/lib/rooms";
 import { daysSince, localTimestamp, tenancyMonths, tenureLabel } from "@/lib/dates";
-import { money } from "@/lib/estimate";
+import { burdenSummary, calculateEstimate, money } from "@/lib/estimate";
 import type { Inspection } from "@/lib/types";
 
 export function InspectionOverview({ inspection }: { inspection: Inspection }) {
@@ -13,6 +13,7 @@ export function InspectionOverview({ inspection }: { inspection: Inspection }) {
   const checked = progress(inspection.rooms);
   const months = tenancyMonths(inspection.moveIn, inspection.moveOut);
   const elapsed = daysSince(inspection.moveOut, now);
+  const burdens = burdenSummary(calculateEstimate(inspection));
   const issues = inspection.rooms
     .flatMap((room) => room.items)
     .filter((item) => item.checked && item.condition !== "問題なし");
@@ -97,6 +98,25 @@ export function InspectionOverview({ inspection }: { inspection: Inspection }) {
           </div>
         </section>
       </div>
+      <section className="panel burden-summary" aria-labelledby="burden-summary-title">
+        <div className="section-heading">
+          <h2 id="burden-summary-title">負担区分の内訳</h2>
+          <AppLink href={`/inspections/${inspection.id}/estimate`}>見積の明細へ →</AppLink>
+        </div>
+        <dl className="burden-totals">
+          {burdens.map((burden) => (
+            <div key={burden.label}>
+              <dt>
+                {burden.label} <small>{burden.count}件</small>
+              </dt>
+              <dd>{money(burden.amount)}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="muted">
+          税抜・確認済みの要対応項目とクリーニングを集計。件数は負担額がある明細数です。分担する明細は貸主・借主の両方に含み、保留は請求額に含みません。
+        </p>
+      </section>
       <div className="section-heading">
         <div>
           <h2>部屋ごとのチェック</h2>

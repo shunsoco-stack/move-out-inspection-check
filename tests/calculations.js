@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { remainingRatio, suggestBurden, tenantRatio } from "../src/lib/burden.ts";
-import { calculateEstimate, photoPages } from "../src/lib/estimate.ts";
+import { burdenSummary, calculateEstimate, formatRatio, photoPages } from "../src/lib/estimate.ts";
+import { estimateCsv } from "../src/lib/csv.ts";
 import { resizedDimensions } from "../src/lib/photos.ts";
 import { createSeed } from "../src/lib/seed.ts";
 import { expandRooms, roomNames, defaultSettings, progress } from "../src/lib/rooms.ts";
@@ -21,6 +22,75 @@ function fixture() {
   });
   return inspection;
 }
+
+for (const [ratio, expected] of [
+  [0.750032, "75%"],
+  [0, "0%"],
+  [1, "100%"],
+  [0.625, "62.5%"],
+  [0.1234, "12.3%"],
+  [0.1236, "12.4%"],
+  [0.0001, "0%"],
+  [0.9999, "100%"],
+]) {
+  test(`割合表示 ${ratio} → ${expected}`, () => assert.equal(formatRatio(ratio), expected));
+  test(`CSVの割合表示 ${ratio} → ${expected}・計算は元の精度`, () => {
+    const entry = fixture();
+    entry.rooms[0].items[0].ratio = ratio;
+    const before = calculateEstimate(entry);
+    assert.equal(estimateCsv(entry).split("\r\n")[2].split(",")[4], `"${expected}"`);
+    assert.equal(before.lines[0].ratio, ratio);
+    assert.equal(before.lines[0].tenant, Math.floor(10001 * ratio + 1e-8));
+    assert.deepEqual(calculateEstimate(entry), before);
+  });
+}
+
+test("自動償却の根拠を表示", () => {
+  assert.equal(
+    calculateEstimate(fixture()).lines[0].ratioBasis,
+    "耐用年数6年・経過3年0か月（入居期間）",
+  );
+});
+for (const change of [
+  { ratio: 0.5 },
+  { depreciates: false },
+  { burden: "貸主" },
+  { burden: "保留" },
+]) {
+  test(`自動償却でない行に根拠を付けない ${JSON.stringify(change)}`, () => {
+    const entry = fixture();
+    Object.assign(entry.rooms[0].items[0], change);
+    assert.equal(calculateEstimate(entry).lines[0].ratioBasis, undefined);
+  });
+}
+test("負担内訳は分担した明細を双方に数える", () => {
+  const summary = burdenSummary(calculateEstimate(fixture()));
+  assert.deepEqual(summary, [
+    { label: "貸主負担", amount: 5000, count: 1 },
+    { label: "借主負担", amount: 5001, count: 1 },
+    { label: "保留", amount: 0, count: 0 },
+  ]);
+});
+test("負担内訳で保留と特約クリーニングを分ける", () => {
+  const entry = fixture();
+  entry.rooms[0].items[0].burden = "保留";
+  entry.cleaningPrice = 30000;
+  entry.cleaningClause = true;
+  assert.deepEqual(burdenSummary(calculateEstimate(entry)), [
+    { label: "貸主負担", amount: 0, count: 0 },
+    { label: "借主負担", amount: 30000, count: 1 },
+    { label: "保留", amount: 10001, count: 1 },
+  ]);
+});
+test("未確認とゼロ円を負担内訳の件数に含めない", () => {
+  const entry = fixture();
+  entry.rooms[0].items[0].checked = false;
+  assert.ok(
+    burdenSummary(calculateEstimate(entry)).every(
+      (group) => group.count === 0 && group.amount === 0,
+    ),
+  );
+});
 
 for (const [months, expected] of [
   [0, 1],
