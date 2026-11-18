@@ -1,0 +1,91 @@
+/* 登録フォーム・テンプレート設定 */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px;
+}
+.form-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.registration .form-grid {
+  margin-bottom: 20px;
+}
+.checkbox-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+  gap: 10px;
+  font-weight: 500;
+}
+.template-card {
+  background: #f8faf6;
+  border: 1px solid #e6ebe2;
+  padding: 20px;
+  border-radius: 7px;
+  margin-bottom: 16px;
+}
+.template-options {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 20px;
+}
+.template-options > label:first-child {
+  width: 90px;
+}
+.template-options > button {
+  margin-left: auto;
+}
+.danger-text {
+  color: #a05b4e;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+}
+.danger-button {
+  color: #985849;
+  border-color: #d7bfb7;
+  background: #fff9f5;
+}
+.file-control {
+  position: relative;
+}
+.file-control input:focus-visible + label {
+  outline: 3px solid #7aab91;
+  outline-offset: 3px;
+}
+.file-control input:disabled + label {
+  opacity: 0.5;
+  cursor: wait;
+}
+.file-control .button {
+  font-size: 13px;
+}
+/* バックアップと説明ページ */
+.feature-number {
+  display: block;
+  color: #b1beac;
+  font-size: 35px;
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.overview-grid > .panel > p {
+  font-size: 13px;
+  line-height: 1.9;
+}
+.prose {
+  max-width: 900px;
+  padding: 35px;
+}
+.prose h2 {
+  margin-top: 30px;
+}
+.prose h2:first-child {
+  margin-top: 0;
+}
+.prose p {
+  color: #6d8072;
+  line-height: 2;
+  font-size: 13px;
+}

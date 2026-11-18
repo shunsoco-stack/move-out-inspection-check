@@ -1,0 +1,383 @@
+/* 中間幅では一覧をカードに切り替える */
+@media (max-width: 1250px) {
+  .sidebar {
+    width: 210px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .workspace {
+    margin-left: 210px;
+  }
+  .main-content {
+    padding: 24px;
+  }
+  .topbar {
+    padding: 0 24px;
+  }
+  .inspection-table-head {
+    display: none;
+  }
+  .inspection-row {
+    grid-template-columns: minmax(200px, 2fr) 1fr 1fr;
+    gap: 16px;
+  }
+  .progress-cell {
+    grid-column: 2;
+  }
+  .row-arrow {
+    grid-column: 3;
+    justify-self: end;
+  }
+  .property-cell {
+    grid-row: span 2;
+  }
+  .stat-card {
+    padding: 18px 15px;
+  }
+  .list-toolbar {
+    flex-wrap: wrap;
+  }
+  .search {
+    width: 100%;
+  }
+  .page-heading {
+    align-items: flex-start;
+  }
+  .rooms-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* スマホの片手操作・下部タブ */
+@media (max-width: 760px) {
+  body {
+    font-size: 13px;
+  }
+  .sidebar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    padding: 5px 6px max(5px, env(safe-area-inset-bottom));
+    border-right: 0;
+    border-top: 1px solid #dae3d8;
+    background: #fcfefbf5;
+    backdrop-filter: blur(14px);
+  }
+  .brand,
+  .workspace-label,
+  .sidebar-bottom {
+    display: none;
+  }
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .nav-link {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 1px;
+    font-size: 9px;
+    min-height: 58px;
+    border-radius: 6px;
+  }
+  .nav-link:last-child span {
+    font-size: 8px;
+  }
+  .workspace {
+    margin-left: 0;
+  }
+  .topbar {
+    height: 59px;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  .topbar-title {
+    font-size: 10px;
+  }
+  .topbar-title .muted,
+  .avatar {
+    display: none;
+  }
+  .topbar-right {
+    gap: 0;
+  }
+  .demo-pill {
+    font-size: 8px;
+    padding: 3px 6px;
+  }
+  .main-content {
+    padding: 20px 16px 24px;
+  }
+  .page-meta {
+    margin-bottom: 23px;
+    font-size: 8px;
+  }
+  .page-heading {
+    flex-direction: column;
+    gap: 17px;
+    margin-bottom: 23px;
+  }
+  .page-heading h1 {
+    font-size: 25px;
+  }
+  .page-heading h1 small {
+    display: block;
+    font-size: 17px;
+  }
+  .page-heading p {
+    font-size: 11px;
+    line-height: 1.9;
+  }
+  .page-heading > button {
+    align-self: stretch;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .stat-card {
+    padding: 16px 14px 13px;
+    gap: 9px;
+  }
+  .stat-card > span:first-child {
+    font-size: 10px;
+  }
+  .stat-card > strong {
+    font-size: 30px;
+  }
+  .stat-foot {
+    font-size: 8px;
+    padding-top: 10px;
+  }
+  .next-inspection {
+    padding: 15px;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .next-inspection > div:nth-child(2) {
+    flex: 1;
+  }
+  .next-inspection p {
+    gap: 2px;
+    flex-direction: column;
+    font-size: 10px;
+  }
+  .next-inspection .text-link {
+    font-size: 10px;
+    width: 100%;
+    justify-content: flex-end;
+    min-height: 44px;
+  }
+  .panel {
+    padding: 20px 17px;
+  }
+  .list-panel {
+    padding: 0;
+  }
+  .list-toolbar {
+    padding: 14px 13px 0;
+    gap: 11px;
+  }
+  .tabs {
+    width: 100%;
+    gap: 3px;
+    justify-content: space-between;
+  }
+  .tabs button {
+    font-size: 9px;
+    padding: 9px 7px;
+    gap: 4px;
+  }
+  .tabs button span {
+    font-size: 8px;
+    padding: 0 4px;
+  }
+  .table-caption {
+    padding: 15px;
+    font-size: 9px;
+  }
+  .inspection-row {
+    padding: 19px 16px;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+  }
+  .property-cell {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    gap: 11px;
+  }
+  .property-cell strong {
+    font-size: 14px;
+  }
+  .property-cell p {
+    font-size: 11px;
+  }
+  .date-cell {
+    font-size: 11px;
+  }
+  .progress-cell {
+    grid-column: 1;
+  }
+  .row-arrow {
+    grid-column: 2;
+  }
+  .guidance {
+    flex-wrap: wrap;
+    font-size: 10px;
+    gap: 8px;
+  }
+  .guidance > svg {
+    display: none;
+  }
+  .guidance > a {
+    margin-left: 0;
+  }
+  .overview-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .details > div {
+    gap: 10px;
+    font-size: 11px;
+  }
+  .details dt {
+    width: 105px;
+  }
+  .form-grid,
+  .form-grid.three {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .burden-fields .form-grid.three {
+    grid-template-columns: 1fr 1fr;
+  }
+  .section-heading {
+    align-items: flex-start;
+  }
+  .section-heading h2 {
+    font-size: 16px;
+  }
+  .section-heading p {
+    font-size: 11px;
+  }
+  .rooms-grid {
+    gap: 10px;
+  }
+  .room-card {
+    padding: 16px 13px;
+  }
+  .room-card h3 {
+    font-size: 16px;
+  }
+  .room-card p {
+    flex-direction: column;
+  }
+  .room-card .badge {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  .room-number {
+    font-size: 19px;
+  }
+  .condition-buttons {
+    gap: 5px;
+  }
+  .condition-buttons button {
+    font-size: 10px;
+    min-height: 49px;
+    padding: 8px 1px;
+  }
+  .burden-fields {
+    padding: 15px 12px;
+  }
+  .burden-fields label {
+    font-size: 11px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  .burden-fields select {
+    font-size: 12px;
+  }
+  .photo-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .photo-overlay {
+    font-size: 8px;
+    padding: 4px 6px;
+  }
+  .photo-card figcaption {
+    flex-wrap: wrap;
+    font-size: 8px;
+  }
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .action-bar .button-row {
+    flex-direction: column;
+  }
+  .estimate-paper {
+    padding: 20px 15px;
+  }
+  .document-heading h2 {
+    font-size: 19px;
+  }
+  .document-heading .eyebrow {
+    font-size: 8px;
+  }
+  .draft-stamp {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .settlement-summary {
+    padding: 19px 16px;
+  }
+  .settlement-summary strong {
+    font-size: 28px;
+  }
+  .photo-print-page .section-heading {
+    flex-direction: column;
+    gap: 7px;
+  }
+  .template-options {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .template-options .checkbox-label {
+    font-size: 11px;
+  }
+  .template-options > button {
+    margin-left: 0;
+  }
+  .template-card {
+    padding: 16px;
+  }
+  .prose {
+    padding: 23px 20px;
+  }
+  .footer {
+    padding-bottom: 100px;
+    font-size: 9px;
+  }
+  .toast {
+    left: 12px;
+    right: 12px;
+    bottom: 85px;
+    transform: none;
+    width: auto;
+    font-size: 12px;
+  }
+}

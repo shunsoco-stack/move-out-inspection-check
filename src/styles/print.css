@@ -1,0 +1,127 @@
+/* A4縦・表紙、明細、12枚ずつの写真一覧 */
+@page {
+  size: A4 portrait;
+  margin: 15mm 12mm;
+}
+@media print {
+  html,
+  body {
+    background: #fff;
+    color: #222;
+    font-size: 10pt;
+  }
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .no-print,
+  .sidebar,
+  .topbar,
+  .footer,
+  .toast {
+    display: none !important;
+  }
+  .workspace,
+  .main-content {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .print-only {
+    display: block;
+    font-size: 10pt;
+    line-height: 1.9;
+    margin-top: 30mm;
+  }
+  .estimate-paper {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+  .print-cover {
+    break-after: page;
+    padding-top: 15mm;
+  }
+  .document-heading h2 {
+    font-size: 22pt;
+  }
+  .document-property {
+    margin-top: 12mm;
+    font-size: 18pt;
+  }
+  .details > div {
+    font-size: 10pt;
+    padding: 4mm 0;
+  }
+  .details dt {
+    width: 35mm;
+  }
+  .settlement-summary {
+    margin-top: 15mm;
+    padding: 8mm;
+  }
+  .settlement-summary strong {
+    font-size: 26pt;
+  }
+  .table-scroll {
+    overflow: visible;
+  }
+  .estimate-table {
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 8pt;
+  }
+  .estimate-table th:first-child {
+    width: 30%;
+  }
+  .estimate-table th,
+  .estimate-table td {
+    padding: 3mm 1.5mm;
+    overflow-wrap: anywhere;
+  }
+  .estimate-table thead {
+    display: table-header-group;
+  }
+  .estimate-table tfoot {
+    display: table-row-group;
+  }
+  .estimate-table tr {
+    break-inside: avoid;
+  }
+  .document-note {
+    font-size: 8pt;
+  }
+  .photo-print-page {
+    break-before: page;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .photo-print-page .photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4mm;
+  }
+  .photo-card {
+    break-inside: avoid;
+  }
+  .photo-image img {
+    height: 36mm;
+    width: 100%;
+    object-fit: cover;
+  }
+  .photo-card figcaption {
+    font-size: 7pt;
+    padding: 1mm 0;
+  }
+  .photo-overlay {
+    font-size: 7pt;
+    padding: 1mm 2mm;
+  }
+  .photo-print-page h2 {
+    font-size: 16pt;
+  }
+  .photo-print-page .section-heading {
+    margin-bottom: 6mm;
+  }
+}
